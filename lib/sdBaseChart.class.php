@@ -213,7 +213,9 @@ class BaseChart {
 
         $this->html .= '<script type="text/javascript">'  . "\n";
         $this->loadPackage($this->chartPackage);
-        $this->html .= 'CHARTS.toCreate.push({';
+        $this->html .= "google.setOnLoadCallback(loadCharts);" . "\n";
+        $this->html .= "function loadCharts(){" . "\n";
+        $this->html .= '    CHARTS.toCreate.push({';
 
         foreach ($this as $key => $propety) {
             if ((in_array($key, $this->noneJavascriptParams)) || ($key == 'noneJavascriptParams'))
@@ -231,8 +233,9 @@ class BaseChart {
                 $this->html .= "$key: " . json_encode($propety) . ',';
             }
         }
-        $this->html = trim($this->html, ',');
-        $this->html .= '});';
+        $this->html =   trim($this->html, ',');
+        $this->html .= '    });';
+        $this->html .= '}';
         $this->html .= '</script>';
     }
 
