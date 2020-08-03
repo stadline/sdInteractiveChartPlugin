@@ -235,6 +235,7 @@ class BaseChart {
         }
         $this->html =   trim($this->html, ',');
         $this->html .= '    });';
+        $this->html .= '    CHARTS.createCharts();';
         $this->html .= '}';
         $this->html .= '</script>';
     }

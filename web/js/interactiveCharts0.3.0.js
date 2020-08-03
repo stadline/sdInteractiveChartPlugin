@@ -9,9 +9,18 @@ CHARTS.toCreate = Array();
  *
  */
 $(document).ready(function() {
+    CHARTS.createCharts();
+});
+
+CHARTS.createCharts = function() {
     var len = CHARTS.toCreate.length;
     for (var i = 0; i < len; i++) {
         var chart = CHARTS.toCreate[i];
+
+        if (chart.created) {
+            return true;
+        }
+
         if (chart.chartType == undefined) {
             if (typeof(console) != "undefined") {
                 console.error('No chart type (chartType) defined.');
@@ -19,6 +28,8 @@ $(document).ready(function() {
             continue;
         }
 
+        chart.created = true;
+        CHARTS.toCreate[i] = chart;
         if ((chart.url != undefined) && (chart.url != '')) {
             // This chart requires data from an AJAX request!
             CHARTS.loadData(chart, i);
@@ -27,8 +38,7 @@ $(document).ready(function() {
             CHARTS.createChart(i);
         }
     }
-});
-
+}
 
 CHARTS.createChart = function(chartIndex) {
     // I think all charts this plugin will implement can use the same creation code
